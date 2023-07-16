@@ -13,8 +13,22 @@ const App = () => {
     )  
   }, [])
 
+  useEffect(() => {
+    const loggedUserInfo = localStorage.getItem('loggedUserInfo');
+
+    if (loggedUserInfo) {
+      const userInfo = JSON.parse(loggedUserInfo);
+      setUser(userInfo);
+    }
+  }, [])
+
   const postLogin = (user) => {
    setUser(user);
+  }
+
+  const handleLogout = () => {
+    setUser(null);
+    localStorage.removeItem('loggedUserInfo');
   }
 
   return (
@@ -22,6 +36,7 @@ const App = () => {
       {!user && <LoginForm postLogin={postLogin} />}
       {user &&
         <>
+          <button onClick={handleLogout}>Logout</button>
           <h2>blogs</h2>
           <p>Logged in as {user.name}</p>
           {blogs.map(blog =>

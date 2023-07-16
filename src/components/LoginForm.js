@@ -15,6 +15,7 @@ const LoginForm = ({ postLogin }) => {
     event.preventDefault();
     const user = await loginService.login(credentials);
     postLogin(user);
+    localStorage.setItem('loggedUserInfo', JSON.stringify(user));
   }
 
   
