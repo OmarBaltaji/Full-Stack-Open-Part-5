@@ -12,9 +12,13 @@ const BlogForm = ({ postSubmission }) => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const newBlog = await blogService.create(blog);
-    postSubmission(newBlog);
-    setBlog(initialPropertiesValues);
+    try {
+      const newBlog = await blogService.create(blog);
+      postSubmission(newBlog, 'Blog created successfully', 'success');
+      setBlog(initialPropertiesValues);
+    } catch (error) {
+      postSubmission(null, 'Failed to create blog', 'error');
+    }
   }
 
   const handleChange = (target, field) => {

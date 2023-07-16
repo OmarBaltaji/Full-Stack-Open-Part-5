@@ -3,10 +3,14 @@ import Blog from './components/Blog'
 import blogService from './services/blogs'
 import LoginForm from './components/LoginForm'
 import BlogForm from './components/BlogForm'
+import Notification from './components/Notification'
+import './index.css';
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
   const [user, setUser] = useState(null);
+  const [feedbackMessage, setFeedbackMessage] = useState(null);
+  const [feedbackClass, setFeedbackClass] = useState(null);
 
   useEffect(() => {
     blogService.getAll().then(blogs =>
@@ -33,8 +37,16 @@ const App = () => {
     localStorage.removeItem('loggedUserInfo');
   }
 
-  const postSubmission = (newBlog) => {
-    setBlogs(oldBlogs => [...oldBlogs, newBlog]);
+  const postSubmission = (newBlog, message, className) => {
+    if (newBlog) {
+      setBlogs(oldBlogs => [...oldBlogs, newBlog]);
+    }
+    setFeedbackMessage(message);
+    setFeedbackClass(className);
+    setTimeout(() => {
+      setFeedbackMessage(null);
+      setFeedbackClass(null);
+    }, 5000);
   }
 
   return (
@@ -44,6 +56,7 @@ const App = () => {
         <>
           <button onClick={handleLogout}>Logout</button>
           <h2>blogs</h2>
+          <Notification message={feedbackMessage} className={feedbackClass} />
           <p><strong>Logged in as {user.name}</strong></p>
           <BlogForm postSubmission={postSubmission} />
           <br />
