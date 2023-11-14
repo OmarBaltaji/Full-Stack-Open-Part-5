@@ -18,7 +18,7 @@ const LoginForm = ({ postLogin }) => {
     postLogin(user);
     localStorage.setItem('loggedUserInfo', JSON.stringify(user));
   }
-  
+
   return (
     <>
       <h2>Log in to application</h2>
