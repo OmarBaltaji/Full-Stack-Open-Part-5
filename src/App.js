@@ -1,16 +1,18 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import Blog from './components/Blog'
 import blogService from './services/blogs'
 import LoginForm from './components/LoginForm'
 import BlogForm from './components/BlogForm'
 import Notification from './components/Notification'
 import './index.css';
+import Togglable from './components/Togglable'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
   const [user, setUser] = useState(null);
   const [feedbackMessage, setFeedbackMessage] = useState(null);
   const [feedbackClass, setFeedbackClass] = useState(null);
+  const blogFormRef = useRef();
 
   useEffect(() => {
     blogService.getAll().then(blogs =>
@@ -41,6 +43,7 @@ const App = () => {
     if (newBlog) {
       setBlogs(oldBlogs => [...oldBlogs, newBlog]);
     }
+    blogFormRef.current.toggleVisibility();
     setFeedbackMessage(message);
     setFeedbackClass(className);
     setTimeout(() => {
@@ -58,11 +61,15 @@ const App = () => {
           <h2>blogs</h2>
           <Notification message={feedbackMessage} className={feedbackClass} />
           <p><strong>Logged in as {user.name}</strong></p>
-          <BlogForm postSubmission={postSubmission} />
+          <Togglable buttonLabel="Add new blog" ref={blogFormRef}>
+            <BlogForm postSubmission={postSubmission} />
+          </Togglable>
           <br />
-          {blogs.map(blog =>
-            <Blog key={blog.id} blog={blog} />
-          )}
+          <ul>
+            {blogs.map(blog =>
+              <Blog key={blog.id} blog={blog} />
+            )}
+          </ul>
         </>
       }
     </div>
