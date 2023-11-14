@@ -65,6 +65,13 @@ const App = () => {
     });
   }
 
+  const onDeleteBlog = async (id) => {
+    if (window.confirm('Are you sure you want to delete this blog?')) {
+      await blogService.deleteBlog(id);
+      setBlogs((oldBlogs) => oldBlogs.filter(blog => blog.id !== id));
+    }
+  }
+
   return (
     <div>
       {!user && <LoginForm postLogin={postLogin} />}
@@ -80,7 +87,7 @@ const App = () => {
           <br />
           <ul>
             {blogs.map(blog =>
-              <Blog key={blog.id} blog={blog} onLikeClicked={onLikeClicked} />
+              <Blog key={blog.id} blog={blog} onLikeClicked={onLikeClicked} onDeleteBlog={onDeleteBlog} user={user} />
             )}
           </ul>
         </>
