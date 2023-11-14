@@ -53,6 +53,18 @@ const App = () => {
     }, 5000);
   }
 
+  const onLikeClicked = async (blog) => {
+    const updatedBlog = await blogService.update(blog);
+    setBlogs((oldBlogs) => {
+      return oldBlogs.map(blog => {
+        if (blog.id === updatedBlog.id) {
+          return updatedBlog;
+        }
+        return blog;
+      });
+    });
+  }
+
   return (
     <div>
       {!user && <LoginForm postLogin={postLogin} />}
@@ -68,7 +80,7 @@ const App = () => {
           <br />
           <ul>
             {blogs.map(blog =>
-              <Blog key={blog.id} blog={blog} />
+              <Blog key={blog.id} blog={blog} onLikeClicked={onLikeClicked} />
             )}
           </ul>
         </>
