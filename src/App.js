@@ -8,7 +8,7 @@ import './index.css';
 import Togglable from './components/Togglable'
 
 const App = () => {
-  const [blogs, setBlogs] = useState([])
+  const [blogs, setBlogs] = useState([]);
   const [user, setUser] = useState(null);
   const [feedbackMessage, setFeedbackMessage] = useState(null);
   const [feedbackClass, setFeedbackClass] = useState(null);
