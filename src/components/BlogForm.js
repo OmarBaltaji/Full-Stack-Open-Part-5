@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useState } from 'react';
 import blogService from '../services/blogs';
+import PropTypes from 'prop-types';
 
 const BlogForm = ({ postSubmission }) => {
   const initialPropertiesValues = {
@@ -33,11 +34,11 @@ const BlogForm = ({ postSubmission }) => {
           <label>title</label>
           <input name="title" value={blog.title} onChange={({ target }) => handleChange(target, 'title')}  />
         </div>
-          <div>
+        <div>
           <label>author</label>
           <input name="author" value={blog.author} onChange={({ target }) => handleChange(target, 'author')}  />
         </div>
-          <div>
+        <div>
           <label>url</label>
           <input name="url" value={blog.url} onChange={({ target }) => handleChange(target, 'url')}  />
         </div>
@@ -45,6 +46,10 @@ const BlogForm = ({ postSubmission }) => {
       </form>
     </>
   );
+}
+
+BlogForm.propTypes = {
+  postSubmission: PropTypes.func.isRequired,
 }
 
 export default BlogForm;

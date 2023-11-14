@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState } from 'react';
+import PropTypes from 'prop-types';
 
 const Blog = ({ blog, onLikeClicked, onDeleteBlog, user }) => {
   const [visible, setVisibility] = useState(false);
@@ -17,7 +18,7 @@ const Blog = ({ blog, onLikeClicked, onDeleteBlog, user }) => {
   };
 
   const handleLike = async () => {
-    blog = {...blog, likes: blog.likes + 1, user: blog.user.id};
+    blog = { ...blog, likes: blog.likes + 1, user: blog.user.id };
     onLikeClicked(blog);
   }
 
@@ -33,6 +34,13 @@ const Blog = ({ blog, onLikeClicked, onDeleteBlog, user }) => {
       </div>}
     </div>
   )
+}
+
+Blog.propTypes = {
+  blog: PropTypes.object.isRequired,
+  onLikeClicked: PropTypes.func.isRequired,
+  onDeleteBlog: PropTypes.func.isRequired,
+  user: PropTypes.object.isRequired,
 }
 
 export default Blog

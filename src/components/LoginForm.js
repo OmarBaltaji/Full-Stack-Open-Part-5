@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useState } from 'react';
 import loginService from '../services/login';
+import PropTypes from 'prop-types';
 
 const LoginForm = ({ postLogin }) => {
   const [credentials, setCredentials] = useState({
@@ -17,7 +18,6 @@ const LoginForm = ({ postLogin }) => {
     postLogin(user);
     localStorage.setItem('loggedUserInfo', JSON.stringify(user));
   }
-
   
   return (
     <>
@@ -35,6 +35,10 @@ const LoginForm = ({ postLogin }) => {
       </form>
     </>
   )
+}
+
+LoginForm.propTypes = {
+  postLogin: PropTypes.func.isRequired
 }
 
 export default LoginForm;
