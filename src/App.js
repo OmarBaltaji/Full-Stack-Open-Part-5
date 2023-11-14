@@ -41,6 +41,7 @@ const App = () => {
 
   const postSubmission = (newBlog, message, className) => {
     if (newBlog) {
+      newBlog = { ...newBlog, user };
       setBlogs(oldBlogs => [...oldBlogs, newBlog]);
     }
     blogFormRef.current.toggleVisibility();
