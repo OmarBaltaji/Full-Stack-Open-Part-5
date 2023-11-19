@@ -23,7 +23,7 @@ const Blog = ({ blog, onLikeClicked, onDeleteBlog, user }) => {
   }
 
   return (
-    <div style={blogStyle}>
+    <div style={blogStyle} className='blog'>
       <b style={{ marginRight: '10px' }}>{blog.title} {blog.author}</b>
       <button style={{ marginRight: '10px' }} onClick={() => setVisibility(!visible)}>{visible ? 'Hide' : 'View'}</button>
       {blog.user.username === user.username && <button onClick={() => onDeleteBlog(blog.id)}>Delete</button>}
