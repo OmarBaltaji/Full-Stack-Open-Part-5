@@ -32,15 +32,15 @@ const BlogForm = ({ postSubmission }) => {
       <form onSubmit={handleSubmit}>
         <div>
           <label>title</label>
-          <input name="title" value={blog.title} onChange={({ target }) => handleChange(target, 'title')}  />
+          <input id='blog-title' name="title" value={blog.title} onChange={({ target }) => handleChange(target, 'title')}  />
         </div>
         <div>
           <label>author</label>
-          <input name="author" value={blog.author} onChange={({ target }) => handleChange(target, 'author')}  />
+          <input id='blog-author' name="author" value={blog.author} onChange={({ target }) => handleChange(target, 'author')}  />
         </div>
         <div>
           <label>url</label>
-          <input name="url" value={blog.url} onChange={({ target }) => handleChange(target, 'url')}  />
+          <input id='blog-url' name="url" value={blog.url} onChange={({ target }) => handleChange(target, 'url')}  />
         </div>
         <button type="submit">Create</button>
       </form>
