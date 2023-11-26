@@ -29,7 +29,7 @@ const Blog = ({ blog, onLikeClicked, onDeleteBlog, user }) => {
       {blog.user.username === user.username && <button onClick={() => onDeleteBlog(blog.id)}>Delete</button>}
       {visible && <div>
         <div style={detailsStyle}><a href={blog.url}>{blog.url}</a></div>
-        <div style={detailsStyle}>{blog.likes} <button onClick={handleLike}>like</button></div>
+        <div style={detailsStyle}><span>{blog.likes}</span> <button onClick={handleLike}>like</button></div>
         <div>{blog?.user?.name}</div>
       </div>}
     </div>
