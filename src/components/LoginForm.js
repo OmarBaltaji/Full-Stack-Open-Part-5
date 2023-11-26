@@ -1,12 +1,14 @@
 import { useState } from 'react';
 import loginService from '../services/login';
 import PropTypes from 'prop-types';
+import Notification from './Notification';
 
 const LoginForm = ({ postLogin }) => {
   const [credentials, setCredentials] = useState({
     username: '',
     password: '',
   });
+  const [message, setMessage] = useState('');
 
   const handleChange = (target, field) => {
     setCredentials(oldCredentials => ({ ...oldCredentials, [field]: target.value }));
@@ -14,24 +16,32 @@ const LoginForm = ({ postLogin }) => {
 
   const handleLogin = async (event) => {
     event.preventDefault();
-    const user = await loginService.login(credentials);
-    postLogin(user);
-    localStorage.setItem('loggedUserInfo', JSON.stringify(user));
+    try {
+      const user = await loginService.login(credentials);
+      postLogin(user);
+      localStorage.setItem('loggedUserInfo', JSON.stringify(user));
+    } catch (error) {
+      setMessage(error.response.data.error);
+      setTimeout(() => {
+        setMessage(null);
+      }, 5000);
+    }
   }
 
   return (
     <>
+      {message && <Notification message={message} className='error' />}
       <h2>Log in to application</h2>
       <form onSubmit={handleLogin}>
         <div>
           <label>username</label>
-          <input name="username" value={credentials.username} onChange={({ target }) => handleChange(target, 'username')}  />
+          <input id="username" name="username" value={credentials.username} onChange={({ target }) => handleChange(target, 'username')}  />
         </div>
         <div>
           <label>password</label>
-          <input type="password" name="password" value={credentials.password} onChange={({ target }) => handleChange(target, 'password')} />
+          <input id="password" type="password" name="password" value={credentials.password} onChange={({ target }) => handleChange(target, 'password')} />
         </div>
-        <button type="submit">Login</button>
+        <button id="login-button" type="submit">Login</button>
       </form>
     </>
   )
