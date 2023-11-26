@@ -1,8 +1,8 @@
 describe('Blog app', function() {
   beforeEach(function() {
-    cy.request('POST', 'http://localhost:3001/api/testing/reset');
-    cy.request('POST', 'http://localhost:3001/api/users', { username: 'root', password: 'password', name: 'root' });
-    cy.visit('http://localhost:3000');
+    cy.request('POST', `${Cypress.env('BACKEND')}/testing/reset`);
+    cy.request('POST', `${Cypress.env('BACKEND')}/users`, { username: 'root', password: 'password', name: 'root' });
+    cy.visit('');
   })
 
   it('Login form is shown', function() {
@@ -32,12 +32,11 @@ describe('Blog app', function() {
 
     describe('When logged in', function() {
       beforeEach(function() {
-        cy.get('#username').type('root');
-        cy.get('#password').type('password');
-        cy.get('#login-button').click();
+        cy.login({ username: 'root', password: 'password' });
+        cy.createBlog({ title: 'beforeEach title test', author: 'beforeEach author test', url: 'beforeEach url test' });
       })
 
-      it.only('A blog can be created', function() {
+      it('A blog can be created', function() {
         cy.contains('Add new blog').click();
         cy.get('#blog-title').type('new test blog');
         cy.get('#blog-author').type('test author');
@@ -45,6 +44,14 @@ describe('Blog app', function() {
         cy.get('#blog-submit-btn').click();
 
         cy.contains('new test blog test author');
+      })
+
+      it.only('user can like a blog', function() {
+        let container = cy.contains('beforeEach title test').parent();
+        container.contains('View').click();
+        container = cy.contains('beforeEach title test').parent();
+        container.contains('like').click();
+        container.contains('like').prev().contains('1');
       })
     })
   })
