@@ -34,7 +34,9 @@ describe('Blog app', function() {
     describe('When logged in', function() {
       beforeEach(function() {
         cy.login({ username: 'root', password: 'password' });
-        cy.createBlog({ title: 'beforeEach title test', author: 'beforeEach author test', url: 'beforeEach url test' });
+        cy.createBlog({ title: 'beforeEach title test', author: 'beforeEach author test', url: 'beforeEach url test', likes: 7 });
+        cy.createBlog({ title: 'beforeEach title test2', author: 'beforeEach author test2', url: 'beforeEach url test2', likes: 10 });
+        cy.createBlog({ title: 'beforeEach title test3', author: 'beforeEach author test3', url: 'beforeEach url test3', likes: 2 });
       })
 
       it('A blog can be created', function() {
@@ -65,6 +67,15 @@ describe('Blog app', function() {
         cy.login({ username: 'testuser', password: 'password' });
         let container = cy.contains('beforeEach title test').parent();
         container.contains('Delete').should('not.exist');
+      })
+
+      it.only('blogs are sorted by likes in descending order', function() {
+        cy.get('.blog').eq(0).contains('View').click();
+        cy.get('.blog').eq(0).contains('10');
+        cy.get('.blog').eq(1).contains('View').click();
+        cy.get('.blog').eq(1).contains('7');
+        cy.get('.blog').eq(2).contains('View').click();
+        cy.get('.blog').eq(2).contains('2');
       })
     })
   })
