@@ -2,6 +2,7 @@ import { useState } from 'react';
 import loginService from '../services/login';
 import PropTypes from 'prop-types';
 import Notification from './Notification';
+import blogService from '../services/blogs';
 
 const LoginForm = ({ postLogin }) => {
   const [credentials, setCredentials] = useState({
@@ -20,6 +21,7 @@ const LoginForm = ({ postLogin }) => {
       const user = await loginService.login(credentials);
       postLogin(user);
       localStorage.setItem('loggedUserInfo', JSON.stringify(user));
+      blogService.setToken(user.token);
     } catch (error) {
       setMessage(error.response.data.error);
       setTimeout(() => {

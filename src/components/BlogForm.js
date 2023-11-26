@@ -42,7 +42,7 @@ const BlogForm = ({ postSubmission }) => {
           <label>url</label>
           <input id='blog-url' name="url" value={blog.url} onChange={({ target }) => handleChange(target, 'url')}  />
         </div>
-        <button type="submit">Create</button>
+        <button id='blog-submit-btn' type="submit">Create</button>
       </form>
     </>
   );
