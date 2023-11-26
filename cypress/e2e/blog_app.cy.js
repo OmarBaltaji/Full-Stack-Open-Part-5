@@ -2,6 +2,7 @@ describe('Blog app', function() {
   beforeEach(function() {
     cy.request('POST', `${Cypress.env('BACKEND')}/testing/reset`);
     cy.request('POST', `${Cypress.env('BACKEND')}/users`, { username: 'root', password: 'password', name: 'root' });
+    cy.request('POST', `${Cypress.env('BACKEND')}/users`, { username: 'testuser', password: 'password', name: 'testuser' });
     cy.visit('');
   })
 
@@ -46,12 +47,24 @@ describe('Blog app', function() {
         cy.contains('new test blog test author');
       })
 
-      it.only('user can like a blog', function() {
+      it('user can like a blog', function() {
         let container = cy.contains('beforeEach title test').parent();
         container.contains('View').click();
         container = cy.contains('beforeEach title test').parent();
         container.contains('like').click();
         container.contains('like').prev().contains('1');
+      })
+
+      it('user who created blog can delete it', function() {
+        let container = cy.contains('beforeEach title test').parent();
+        container.contains('Delete').click();
+        cy.contains('beforeEach title test beforeEach author test').should('not.exist');
+      })
+
+      it('another user cannot delete another\'s blog', function() {
+        cy.login({ username: 'testuser', password: 'password' });
+        let container = cy.contains('beforeEach title test').parent();
+        container.contains('Delete').should('not.exist');
       })
     })
   })
